@@ -1,15 +1,17 @@
 <template>
   <div>
     <button @click="showReel = !showReel">show reel</button>
-    <transition name="bounce">
-      <ul v-if="showReel">
-        <symbol-face
-          :url="item.url"
-          :key="index"
-          v-for="(item, index) in items"
-        ></symbol-face>
-      </ul>
-    </transition>
+    <div class="reel-window perspective-on">
+      <transition name="bounce">
+        <ul v-if="showReel">
+          <symbol-face
+            :url="item.url"
+            :key="index"
+            v-for="(item, index) in items"
+          ></symbol-face>
+        </ul>
+      </transition>
+    </div>
   </div>
 </template>
 
@@ -43,10 +45,10 @@ export default {
 <style scoped>
 @keyframes bounce {
   0% {
-    transform: translateY(-1000%);
+    transform: translateY(-100%);
   }
   90% {
-    transform: translateY(-100%);
+    transform: translateY(-10%);
   }
   95% {
     transform: translateY(5%);
@@ -59,11 +61,6 @@ export default {
   }
 }
 
-.bounce-enter-from,
-.bounce-leave-to {
-  animation-name: example;
-}
-
 .bounce-enter-active {
   animation: bounce 3s;
 }
@@ -72,10 +69,23 @@ ul {
   list-style: none;
   display: flex;
   flex-direction: column;
+  padding: 0;
+  margin: 0;
 }
 li {
   flex-grow: 1;
   display: flex;
-  align-items: center;
+}
+
+.reel-window {
+  width: 200px;
+  height: 600px;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+}
+
+.perspective-on {
+  -webkit-perspective: 1000px;
+  -moz-perspective: 1000px;
+  perspective: 1000px; /* Setting the perspective of the contents of the stage but not the stage itself*/
 }
 </style>

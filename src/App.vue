@@ -18,20 +18,56 @@ export default {
       credit: 50,
       currentItem: {
         label: 'Kitten',
-        url: 'https://placekitten.com/200/200',
+        url: 'https://placekitten.com/100/100',
       },
       items: [
         {
           label: 'Kitten',
-          url: 'https://placekitten.com/200/200',
+          url: 'https://placekitten.com/100/100',
         },
         {
           label: 'Bill Murray',
-          url: 'https://www.fillmurray.com/200/200',
+          url: 'https://www.fillmurray.com/100/100',
         },
         {
           label: 'People',
-          url: 'https://placeimg.com/200/200/people',
+          url: 'https://placeimg.com/100/100/people',
+        },
+        {
+          label: 'Kitten',
+          url: 'https://placekitten.com/100/100',
+        },
+        {
+          label: 'Bill Murray',
+          url: 'https://www.fillmurray.com/100/100',
+        },
+        {
+          label: 'People',
+          url: 'https://placeimg.com/100/100/people',
+        },
+        {
+          label: 'Kitten',
+          url: 'https://placekitten.com/100/100',
+        },
+        {
+          label: 'Bill Murray',
+          url: 'https://www.fillmurray.com/100/100',
+        },
+        {
+          label: 'People',
+          url: 'https://placeimg.com/100/100/people',
+        },
+        {
+          label: 'Kitten',
+          url: 'https://placekitten.com/100/100',
+        },
+        {
+          label: 'Bill Murray',
+          url: 'https://www.fillmurray.com/100/100',
+        },
+        {
+          label: 'People',
+          url: 'https://placeimg.com/100/100/people',
         },
       ],
     };
