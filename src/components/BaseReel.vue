@@ -1,17 +1,14 @@
 <template>
-  <div>
-    <button @click="showReel = !showReel">show reel</button>
-    <div class="reel-window perspective-on">
-      <transition name="bounce">
-        <ul v-if="showReel">
-          <symbol-face
-            :url="item.url"
-            :key="index"
-            v-for="(item, index) in items"
-          ></symbol-face>
-        </ul>
-      </transition>
-    </div>
+  <div class="reel-window" :class="{ 'bounce animated': showReel }">
+    <ul>
+      <symbol-face
+        :url="item.url"
+        v-for="(item, index) in items"
+        v-bind:key="index"
+      >
+        ></symbol-face
+      >
+    </ul>
   </div>
 </template>
 
@@ -23,26 +20,35 @@ export default {
   },
   data() {
     return {
+      animated: false,
       currentTransitionNum: 0,
-      showReel: true,
     };
   },
-  props: ['items', 'currentItem'],
-  computed: {},
+  props: ['items', 'currentItem', 'showReel'],
   methods: {
-    nextTransition() {
-      this.currentTransitionNum++;
-      if (this.currentTransitionNum > 2) {
-        this.currentTransitionNum = -1;
-      } else {
-        this.currentTransition = 't' + this.currentTransitionNum;
-      }
+    animationBeforeEnter(el) {
+      console.log('before eneter', el);
+      el.style.transform = 'scale(0.1)';
+    },
+    animationEnter(el, done) {
+      const delay = el.dataset.index * 300;
+
+      console.log('on enter', el, delay);
+
+      setTimeout(() => {
+        el.style.transform = 'scale(1.0)';
+        done();
+      }, delay);
     },
   },
 };
 </script>
 
 <style scoped>
+.animated {
+  animation-duration: 3s;
+  animation-fill-mode: both;
+}
 @keyframes bounce {
   0% {
     transform: translateY(-100%);
@@ -57,12 +63,12 @@ export default {
     transform: translateY(-2%);
   }
   100% {
-    transform: translateY(0);
+    transform: translateY(-30px);
   }
 }
 
-.bounce-enter-active {
-  animation: bounce 3s;
+.bounce {
+  animation: bounce 5s;
 }
 
 ul {

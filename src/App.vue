@@ -1,12 +1,16 @@
 <template>
   <the-credit-meter :credit="credit"></the-credit-meter>
   <div>
-    <base-reel :items="items" :current-item="currentItem"></base-reel>
+    <base-reel
+      :items="items"
+      :current-item="currentItem"
+      :show-reel="showReels"
+    ></base-reel>
+    {{ showReels }}
   </div>
-  <!--
+
   <button @click="spin(1)">Bet 1</button>
   <button @click="spin(2)">Bet 2</button>
-  -->
 </template>
 
 <script>
@@ -20,6 +24,7 @@ export default {
         label: 'Kitten',
         url: 'https://placekitten.com/100/100',
       },
+      showReels: false,
       items: [
         {
           label: 'Kitten',
@@ -80,12 +85,14 @@ export default {
   methods: {
     spin(n) {
       for (let i = 0; i < 3; i++) {
+        /*
         console.log('setting', i);
         this.currentItems[i] = this.items[
           Math.floor(Math.random() * this.items.length)
         ];
+        */
       }
-
+      this.showReels = !this.showReels;
       console.log('spin', n);
     },
   },
