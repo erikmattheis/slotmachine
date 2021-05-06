@@ -2,24 +2,26 @@
   <the-credit-meter :credit="credit"></the-credit-meter>
   <div>
     <base-reel
+      class="base-reel"
       v-if="spinning"
       :items="items"
+      :animation-class="animationClass0"
       :current-item="currentItem"
-      :spinning="spinning"
       @complete="spinComplete"
     ></base-reel>
     <base-reel
+      class="base-reel"
       v-if="spinning"
       :items="items"
+      :animation-class="animationClass1"
       :current-item="currentItem"
-      :spinning="spinning"
       @complete="spinComplete"
     ></base-reel>
     <base-reel
+      class="base-reel"
       v-if="spinning"
       :items="items"
-      :current-item="currentItem"
-      :spinning="spinning"
+      :animation-class="animationClass2"
       @complete="spinComplete"
     ></base-reel>
   </div>
@@ -35,6 +37,9 @@ export default {
   data() {
     return {
       credit: 50,
+      animationClass0: '',
+      animationClass1: '',
+      animationClass2: '',
       currentItem: {
         label: 'Kitten',
         url: 'https://placekitten.com/100/100',
@@ -109,6 +114,12 @@ export default {
         ];
         */
       }
+      this.animationClass0 =
+        'bounce-enter-active-' + Math.floor(Math.random() * 7);
+      this.animationClass1 =
+        'bounce-enter-active-' + Math.floor(Math.random() * 7);
+      this.animationClass2 =
+        'bounce-enter-active-' + Math.floor(Math.random() * 7);
       this.spinning = false;
       this.spinsCompleted = 0;
       setTimeout(
@@ -143,5 +154,9 @@ html {
 
 body {
   margin: 0;
+}
+
+.base-reel {
+  float: left;
 }
 </style>

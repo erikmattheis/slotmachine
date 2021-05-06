@@ -1,16 +1,23 @@
 <template>
   <div class="reel-window">
-    <transition appear name="bounce" @after-enter="spinComplete">
-      <ul v-if="spinning">
-        <symbol-face
-          :url="item.url"
-          v-for="(item, index) in items"
-          v-bind:key="index"
-        >
-          ></symbol-face
-        >
-      </ul>
-    </transition>
+    <div class="offset">
+      <transition
+        appear
+        name="bounce"
+        :enter-active-class="animationClass"
+        @after-enter="spinComplete"
+      >
+        <ul>
+          <symbol-face
+            :url="item.url"
+            v-for="(item, index) in items"
+            v-bind:key="index"
+          >
+            ></symbol-face
+          >
+        </ul>
+      </transition>
+    </div>
   </div>
 </template>
 
@@ -23,7 +30,7 @@ export default {
   data() {
     return {};
   },
-  props: ['items', 'currentItem', 'spinning'],
+  props: ['items', 'animationClass'],
   methods: {
     spinComplete() {
       this.$emit('complete', '');
@@ -34,30 +41,41 @@ export default {
 </script>
 
 <style scoped>
-.animated {
-  animation-duration: 1s;
-  animation-fill-mode: both;
-}
 @keyframes bounce {
   0% {
     transform: translateY(-100%);
   }
-  90% {
-    transform: translateY(-10%);
+  80% {
+    transform: translateY(0);
   }
   95% {
-    transform: translateY(5%);
-  }
-  98% {
-    transform: translateY(-2%);
+    transform: translateY(-5px);
   }
   100% {
-    transform: translateY(-30px);
+    transform: translateY(0);
   }
 }
 
-.bounce-enter-active {
-  animation: bounce 5s;
+.bounce-enter-active-0 {
+  animation: bounce 2s;
+}
+.bounce-enter-active-1 {
+  animation: bounce 2.05s;
+}
+.bounce-enter-active-2 {
+  animation: bounce 2.1s;
+}
+.bounce-enter-active-3 {
+  animation: bounce 2.15s;
+}
+.bounce-enter-active-4 {
+  animation: bounce 2.2s;
+}
+.bounce-enter-active-5 {
+  animation: bounce 2.25s;
+}
+.bounce-enter-active-6 {
+  animation: bounce 2.3s;
 }
 
 ul {
@@ -73,14 +91,12 @@ li {
 }
 
 .reel-window {
-  width: 200px;
-  height: 600px;
+  width: 100px;
+  height: 200px;
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
 }
 
-.perspective-on {
-  -webkit-perspective: 1000px;
-  -moz-perspective: 1000px;
-  perspective: 1000px; /* Setting the perspective of the contents of the stage but not the stage itself*/
+.offset {
+  transform: translateY(-50px);
 }
 </style>
