@@ -1,14 +1,16 @@
 <template>
-  <div class="reel-window" :class="{ 'bounce animated': showReel }">
-    <ul>
-      <symbol-face
-        :url="item.url"
-        v-for="(item, index) in items"
-        v-bind:key="index"
-      >
-        ></symbol-face
-      >
-    </ul>
+  <div class="reel-window">
+    <transition appear name="bounce">
+      <ul v-if="spinning">
+        <symbol-face
+          :url="item.url"
+          v-for="(item, index) in items"
+          v-bind:key="index"
+        >
+          ></symbol-face
+        >
+      </ul>
+    </transition>
   </div>
 </template>
 
@@ -19,28 +21,10 @@ export default {
     SymbolFace,
   },
   data() {
-    return {
-      animated: false,
-      currentTransitionNum: 0,
-    };
+    return {};
   },
-  props: ['items', 'currentItem', 'showReel'],
-  methods: {
-    animationBeforeEnter(el) {
-      console.log('before eneter', el);
-      el.style.transform = 'scale(0.1)';
-    },
-    animationEnter(el, done) {
-      const delay = el.dataset.index * 300;
-
-      console.log('on enter', el, delay);
-
-      setTimeout(() => {
-        el.style.transform = 'scale(1.0)';
-        done();
-      }, delay);
-    },
-  },
+  props: ['items', 'currentItem', 'spinning'],
+  methods: {},
 };
 </script>
 
@@ -67,7 +51,7 @@ export default {
   }
 }
 
-.bounce {
+.bounce-enter-active {
   animation: bounce 5s;
 }
 

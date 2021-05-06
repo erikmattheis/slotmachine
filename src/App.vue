@@ -2,13 +2,13 @@
   <the-credit-meter :credit="credit"></the-credit-meter>
   <div>
     <base-reel
+      v-if="spinning"
       :items="items"
       :current-item="currentItem"
-      :show-reel="showReels"
+      :spinning="spinning"
     ></base-reel>
-    {{ showReels }}
   </div>
-
+  {{ spinning }}
   <button @click="spin(1)">Bet 1</button>
   <button @click="spin(2)">Bet 2</button>
 </template>
@@ -24,7 +24,7 @@ export default {
         label: 'Kitten',
         url: 'https://placekitten.com/100/100',
       },
-      showReels: false,
+      spinning: false,
       items: [
         {
           label: 'Kitten',
@@ -92,7 +92,14 @@ export default {
         ];
         */
       }
-      this.showReels = !this.showReels;
+      this.spinning = false;
+
+      setTimeout(
+        function () {
+          this.spinning = true;
+        }.bind(this),
+        0
+      );
       console.log('spin', n);
     },
   },
@@ -110,10 +117,5 @@ html {
 
 body {
   margin: 0;
-}
-
-.reel {
-  display: block;
-  float: left;
 }
 </style>
