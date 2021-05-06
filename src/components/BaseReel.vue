@@ -1,6 +1,6 @@
 <template>
   <div class="reel-window">
-    <transition appear name="bounce">
+    <transition appear name="bounce" @after-enter="spinComplete">
       <ul v-if="spinning">
         <symbol-face
           :url="item.url"
@@ -24,13 +24,18 @@ export default {
     return {};
   },
   props: ['items', 'currentItem', 'spinning'],
-  methods: {},
+  methods: {
+    spinComplete() {
+      this.$emit('complete', '');
+      console.log('complete');
+    },
+  },
 };
 </script>
 
 <style scoped>
 .animated {
-  animation-duration: 3s;
+  animation-duration: 1s;
   animation-fill-mode: both;
 }
 @keyframes bounce {

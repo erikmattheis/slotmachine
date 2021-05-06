@@ -6,9 +6,24 @@
       :items="items"
       :current-item="currentItem"
       :spinning="spinning"
+      @complete="spinComplete"
+    ></base-reel>
+    <base-reel
+      v-if="spinning"
+      :items="items"
+      :current-item="currentItem"
+      :spinning="spinning"
+      @complete="spinComplete"
+    ></base-reel>
+    <base-reel
+      v-if="spinning"
+      :items="items"
+      :current-item="currentItem"
+      :spinning="spinning"
+      @complete="spinComplete"
     ></base-reel>
   </div>
-  {{ spinning }}
+
   <button @click="spin(1)">Bet 1</button>
   <button @click="spin(2)">Bet 2</button>
 </template>
@@ -25,6 +40,7 @@ export default {
         url: 'https://placekitten.com/100/100',
       },
       spinning: false,
+      spinsCompleted: 0,
       items: [
         {
           label: 'Kitten',
@@ -84,6 +100,7 @@ export default {
   computed: {},
   methods: {
     spin(n) {
+      this.credit -= n;
       for (let i = 0; i < 3; i++) {
         /*
         console.log('setting', i);
@@ -93,14 +110,23 @@ export default {
         */
       }
       this.spinning = false;
-
+      this.spinsCompleted = 0;
       setTimeout(
         function () {
           this.spinning = true;
         }.bind(this),
         0
       );
-      console.log('spin', n);
+    },
+    processSpin() {
+      console.log('PROCESSING SPIN');
+    },
+    spinComplete() {
+      this.spinsCompleted++;
+      console.log('this.spinsCompleted', this.spinsCompleted);
+      if (this.spinsCompleted === 3) {
+        this.processSpin();
+      }
     },
   },
 };
