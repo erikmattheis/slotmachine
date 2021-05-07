@@ -34,7 +34,6 @@ export default {
   methods: {
     spinComplete() {
       this.$emit('complete', '');
-      console.log('complete');
     },
   },
 };

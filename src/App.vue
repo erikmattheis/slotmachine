@@ -4,7 +4,7 @@
     <base-reel
       class="base-reel"
       v-if="spinning"
-      :items="items"
+      :items="items0"
       :animation-class="animationClass0"
       :current-item="currentItem"
       @complete="spinComplete"
@@ -12,7 +12,7 @@
     <base-reel
       class="base-reel"
       v-if="spinning"
-      :items="items"
+      :items="items1"
       :animation-class="animationClass1"
       :current-item="currentItem"
       @complete="spinComplete"
@@ -20,7 +20,7 @@
     <base-reel
       class="base-reel"
       v-if="spinning"
-      :items="items"
+      :items="items2"
       :animation-class="animationClass2"
       @complete="spinComplete"
     ></base-reel>
@@ -40,60 +40,80 @@ export default {
       animationClass0: '',
       animationClass1: '',
       animationClass2: '',
-      currentItem: {
-        label: 'Kitten',
-        url: 'https://placekitten.com/100/100',
-      },
+      items0: [],
+      items1: [],
+      items2: [],
       spinning: false,
       spinsCompleted: 0,
+      payTable: [
+        { Prince: 1000 },
+        { Ibis: 200 },
+        { Archie: 100 },
+        { cake: 50 },
+        { '3 Boxes': 30 },
+        { '2 Boxes': 20 },
+        { '1 Boxes': 10 },
+      ],
       items: [
         {
-          label: 'Kitten',
-          url: 'https://placekitten.com/100/100',
+          type: 'prince',
+          label: 'Prince',
+          url: '/assets/faces/00-prince.jpg',
         },
         {
-          label: 'Bill Murray',
-          url: 'https://www.fillmurray.com/100/100',
+          type: 'ibis',
+          label: 'Ibis',
+          url: '/assets/faces/01-ibis.jpg',
         },
         {
-          label: 'People',
-          url: 'https://placeimg.com/100/100/people',
+          type: 'archie',
+          label: 'Archie',
+          url: '/assets/faces/03-archie.jpg',
         },
         {
-          label: 'Kitten',
-          url: 'https://placekitten.com/100/100',
+          type: 'cake',
+          label: 'Cake',
+          url: '/assets/faces/04-cake.jpg',
         },
         {
-          label: 'Bill Murray',
-          url: 'https://www.fillmurray.com/100/100',
+          type: 'box',
+          label: '1 Box',
+          url: '/assets/faces/06-bar-1.jpg',
         },
         {
-          label: 'People',
-          url: 'https://placeimg.com/100/100/people',
+          type: 'box',
+          label: '2 Boxes',
+          url: '/assets/faces/07-bar-2.jpg',
         },
         {
-          label: 'Kitten',
-          url: 'https://placekitten.com/100/100',
+          type: 'box',
+          label: '3 Boxes',
+          url: '/assets/faces/08-bar-3.jpg',
         },
         {
-          label: 'Bill Murray',
-          url: 'https://www.fillmurray.com/100/100',
+          type: 'musician',
+          label: 'Elton',
+          url: '/assets/faces/09-elton.jpg',
         },
         {
-          label: 'People',
-          url: 'https://placeimg.com/100/100/people',
+          type: 'musician',
+          label: 'Lady Gaga',
+          url: '/assets/faces/10-gaga.jpg',
         },
         {
-          label: 'Kitten',
-          url: 'https://placekitten.com/100/100',
+          type: 'musician',
+          label: 'The Artist',
+          url: '/assets/faces/11-prince.jpg',
         },
         {
-          label: 'Bill Murray',
-          url: 'https://www.fillmurray.com/100/100',
+          type: 'musician',
+          label: 'Beyonce',
+          url: '/assets/faces/12-bowie.jpg',
         },
         {
-          label: 'People',
-          url: 'https://placeimg.com/100/100/people',
+          type: 'musician',
+          label: 'Beyonce',
+          url: '/assets/faces/13-beyonce.jpg',
         },
       ],
     };
@@ -106,14 +126,10 @@ export default {
   methods: {
     spin(n) {
       this.credit -= n;
-      for (let i = 0; i < 3; i++) {
-        /*
-        console.log('setting', i);
-        this.currentItems[i] = this.items[
-          Math.floor(Math.random() * this.items.length)
-        ];
-        */
-      }
+
+      this.items0 = this.shuffledItems(this.items);
+      this.items1 = this.shuffledItems(this.items);
+      this.items2 = this.shuffledItems(this.items);
       this.animationClass0 =
         'bounce-enter-active-' + Math.floor(Math.random() * 7);
       this.animationClass1 =
@@ -129,8 +145,21 @@ export default {
         0
       );
     },
+    shuffledItems(array) {
+      const arr = [];
+      let randomIndex;
+      for (let i = 0; i < array.length; i++) {
+        randomIndex = Math.floor(Math.random() * array.length);
+        arr.push(array[randomIndex]);
+      }
+
+      return arr;
+    },
     processSpin() {
-      console.log('PROCESSING SPIN');
+      const symbol0 = this.items0[1];
+      const symbol1 = this.items1[1];
+      const symbol3 = this.items0[1];
+      console.log(symbol0.label, symbol1.label, symbol3.label);
     },
     spinComplete() {
       this.spinsCompleted++;
