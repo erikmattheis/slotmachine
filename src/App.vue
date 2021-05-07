@@ -6,7 +6,6 @@
       v-if="spinning"
       :items="items0"
       :animation-class="animationClass0"
-      :current-item="currentItem"
       @complete="spinComplete"
     ></base-reel>
     <base-reel
@@ -14,7 +13,6 @@
       v-if="spinning"
       :items="items1"
       :animation-class="animationClass1"
-      :current-item="currentItem"
       @complete="spinComplete"
     ></base-reel>
     <base-reel
@@ -54,38 +52,46 @@ export default {
         { '2 Boxes': 20 },
         { '1 Boxes': 10 },
       ],
+
       items: [
         {
-          type: 'prince',
+          winner: true,
+          type: 'wild',
           label: 'Prince',
           url: '/assets/faces/00-prince.jpg',
         },
         {
+          winner: true,
           type: 'ibis',
           label: 'Ibis',
           url: '/assets/faces/01-ibis.jpg',
         },
         {
+          winner: true,
           type: 'archie',
           label: 'Archie',
           url: '/assets/faces/03-archie.jpg',
         },
         {
+          winner: true,
           type: 'cake',
           label: 'Cake',
           url: '/assets/faces/04-cake.jpg',
         },
         {
+          winner: true,
           type: 'box',
           label: '1 Box',
           url: '/assets/faces/06-bar-1.jpg',
         },
         {
+          winner: true,
           type: 'box',
           label: '2 Boxes',
           url: '/assets/faces/07-bar-2.jpg',
         },
         {
+          winner: true,
           type: 'box',
           label: '3 Boxes',
           url: '/assets/faces/08-bar-3.jpg',
@@ -107,7 +113,7 @@ export default {
         },
         {
           type: 'musician',
-          label: 'Beyonce',
+          label: 'Bowie',
           url: '/assets/faces/12-bowie.jpg',
         },
         {
@@ -126,7 +132,6 @@ export default {
   methods: {
     spin(n) {
       this.credit -= n;
-
       this.items0 = this.shuffledItems(this.items);
       this.items1 = this.shuffledItems(this.items);
       this.items2 = this.shuffledItems(this.items);
@@ -156,14 +161,29 @@ export default {
       return arr;
     },
     processSpin() {
-      const symbol0 = this.items0[1];
-      const symbol1 = this.items1[1];
-      const symbol3 = this.items0[1];
-      console.log(symbol0.label, symbol1.label, symbol3.label);
+      let results = [this.items0[1], this.items1[1], this.items2[1]];
+      results = results.filter((o) => o.type !== 'wild');
+
+      const firstSymbol = results[0];
+      let labelsMatch =
+        results.length === 0 ||
+        results.every((o) => o.label === firstSymbol.label);
+      let typesMatch =
+        results.length === 0 ||
+        results.every((o) => o.type === firstSymbol.type);
+
+      if (labelsMatch && firstSymbol.winner) {
+        this.credit += this.payTable[firstSymbol.label];
+        this.winner();
+      } else if (typesMatch) {
+        this.credit += 1;
+      }
+    },
+    winner() {
+      console.log('WINNER');
     },
     spinComplete() {
       this.spinsCompleted++;
-      console.log('this.spinsCompleted', this.spinsCompleted);
       if (this.spinsCompleted === 3) {
         this.processSpin();
       }
