@@ -43,15 +43,15 @@ export default {
       items2: [],
       spinning: false,
       spinsCompleted: 0,
-      payTable: [
-        { Prince: 1000 },
-        { Ibis: 200 },
-        { Archie: 100 },
-        { cake: 50 },
-        { '3 Boxes': 30 },
-        { '2 Boxes': 20 },
-        { '1 Boxes': 10 },
-      ],
+      payTable: {
+        Prince: 1000,
+        Ibis: 200,
+        Archie: 100,
+        Cake: 50,
+        '3 Boxes': 30,
+        '2 Boxes': 20,
+        '1 Box': 10,
+      },
 
       items: [
         {
@@ -172,7 +172,10 @@ export default {
         results.length === 0 ||
         results.every((o) => o.type === firstSymbol.type);
 
-      if (labelsMatch && firstSymbol.winner) {
+      if (!results.length) {
+        this.credit += this.payTable['wild'];
+        this.winner();
+      } else if (labelsMatch && firstSymbol.winner) {
         this.credit += this.payTable[firstSymbol.label];
         this.winner();
       } else if (typesMatch) {

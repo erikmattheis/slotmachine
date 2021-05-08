@@ -47,7 +47,7 @@ export default {
   80% {
     transform: translateY(0);
   }
-  95% {
+  92% {
     transform: translateY(-5px);
   }
   100% {
