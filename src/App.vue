@@ -1,43 +1,12 @@
-<template>
-  <the-credit-meter :credit="credit"></the-credit-meter>
-  <div>
-    <base-reel
-      class="base-reel"
-      v-if="spinning"
-      :items="items0"
-      :animation-class="animationClass0"
-      @complete="spinComplete"
-    ></base-reel>
-    <base-reel
-      class="base-reel"
-      v-if="spinning"
-      :items="items1"
-      :animation-class="animationClass1"
-      @complete="spinComplete"
-    ></base-reel>
-    <base-reel
-      class="base-reel"
-      v-if="spinning"
-      :items="items2"
-      :animation-class="animationClass2"
-      @complete="spinComplete"
-    ></base-reel>
-  </div>
 
-  <button @click="spin(1)">Bet 1</button>
-  <button @click="spin(2)">Bet 2</button>
-</template>
-
-<script>
-import TheCreditMeter from './components/TheCreditMeter';
-import BaseReel from './components/BaseReel';
-export default {
-  data() {
-    return {
+      shortWinSound: 
       credit: 50,
       animationClass0: '',
       animationClass1: '',
       animationClass2: '',
+      sounds: {
+        click: new Audio('/assets/audio/click.wav'),
+      },
       items0: [],
       items1: [],
       items2: [],
@@ -143,6 +112,7 @@ export default {
         'bounce-enter-active-' + Math.floor(Math.random() * 7);
       this.spinning = false;
       this.spinsCompleted = 0;
+      this.sounds.click.play();
       setTimeout(
         function () {
           this.spinning = true;
