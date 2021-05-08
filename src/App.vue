@@ -1,15 +1,53 @@
+<template>
+  <the-credit-meter :credit="credit"></the-credit-meter>
+  <div>
+    <base-reel
+      class="base-reel"
+      v-if="spinning"
+      :items="items0"
+      :animation-class="animationClass0"
+      @complete="spinComplete"
+    ></base-reel>
+    <base-reel
+      class="base-reel"
+      v-if="spinning"
+      :items="items1"
+      :animation-class="animationClass1"
+      @complete="spinComplete"
+    ></base-reel>
+    <base-reel
+      class="base-reel"
+      v-if="spinning"
+      :items="items2"
+      :animation-class="animationClass2"
+      @complete="spinComplete"
+    ></base-reel>
+  </div>
 
-      shortWinSound: 
+  <button @click="spin(1)">Bet 1</button>
+  <button @click="spin(2)">Bet 2</button>
+</template>
+
+<script>
+import TheCreditMeter from './components/TheCreditMeter';
+import BaseReel from './components/BaseReel';
+export default {
+  data() {
+    return {
       credit: 50,
       animationClass0: '',
       animationClass1: '',
       animationClass2: '',
-      sounds: {
-        click: new Audio('/assets/audio/click.wav'),
-      },
       items0: [],
       items1: [],
       items2: [],
+      sounds: {
+        click: new Audio('/assets/audio/click.wav'),
+        short: new Audio('/assets/audio/short.mp3'),
+        medium: new Audio('/assets/audio/medium.mp3'),
+        full: new Audio('/assets/audio/full.mp3'),
+        spin: new Audio('/assets/audio/spin.wav'),
+      },
       spinning: false,
       spinsCompleted: 0,
       payTable: {
@@ -145,17 +183,21 @@
       if (!results.length) {
         this.credit += this.payTable['wild'];
         this.winner();
+        this.sounds.full.play();
       } else if (labelsMatch && firstSymbol.winner) {
         this.credit += this.payTable[firstSymbol.label];
         this.winner();
+        this.sounds.medium.play();
       } else if (typesMatch) {
         this.credit += 1;
+        this.sounds.short.play();
       }
     },
     winner() {
       console.log('WINNER');
     },
     spinComplete() {
+      this.spinning = false;
       this.spinsCompleted++;
       if (this.spinsCompleted === 3) {
         this.processSpin();
