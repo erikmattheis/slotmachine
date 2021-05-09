@@ -197,7 +197,6 @@ export default {
       console.log('WINNER');
     },
     spinComplete() {
-      this.spinning = false;
       this.spinsCompleted++;
       if (this.spinsCompleted === 3) {
         this.processSpin();
