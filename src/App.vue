@@ -3,29 +3,29 @@
   <div>
     <base-reel
       class="base-reel"
-      v-if="spinning"
+      v-if="animationTrigger"
       :items="items0"
       :animation-class="animationClass0"
       @complete="spinComplete"
     ></base-reel>
     <base-reel
       class="base-reel"
-      v-if="spinning"
+      v-if="animationTrigger"
       :items="items1"
       :animation-class="animationClass1"
       @complete="spinComplete"
     ></base-reel>
     <base-reel
       class="base-reel"
-      v-if="spinning"
+      v-if="animationTrigger"
       :items="items2"
       :animation-class="animationClass2"
       @complete="spinComplete"
     ></base-reel>
   </div>
 
-  <button @click="spin(1)">Bet 1</button>
-  <button @click="spin(2)">Bet 2</button>
+  <button @click="spin(1)" :disabled="spinning">Bet 1</button>
+  <button @click="spin(2)" :disabled="spinning">Bet 2</button>
 </template>
 
 <script>
@@ -49,6 +49,7 @@ export default {
         spin: new Audio('/assets/audio/spin.wav'),
       },
       spinning: false,
+      animationTrigger: false,
       spinsCompleted: 0,
       payTable: {
         Prince: 1000,
@@ -138,6 +139,7 @@ export default {
   computed: {},
   methods: {
     spin(n) {
+      this.spinning = true;
       this.credit -= n;
       this.items0 = this.shuffledItems(this.items);
       this.items1 = this.shuffledItems(this.items);
@@ -148,12 +150,13 @@ export default {
         'bounce-enter-active-' + Math.floor(Math.random() * 7);
       this.animationClass2 =
         'bounce-enter-active-' + Math.floor(Math.random() * 7);
-      this.spinning = false;
+      this.animationTrigger = false;
       this.spinsCompleted = 0;
       this.sounds.click.play();
       setTimeout(
         function () {
-          this.spinning = true;
+          this.sounds.spin.play();
+          this.animationTrigger = true;
         }.bind(this),
         0
       );
@@ -199,6 +202,8 @@ export default {
     spinComplete() {
       this.spinsCompleted++;
       if (this.spinsCompleted === 3) {
+        this.spinning = false;
+        this.sounds.spin.pause();
         this.processSpin();
       }
     },
