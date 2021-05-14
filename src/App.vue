@@ -187,13 +187,37 @@ export default {
         this.credit += this.payTable['wild'];
         this.winner();
         this.sounds.full.play();
+        this.sounds.full.addEventListener('ended', () => {
+          console.log(
+            'Video stopped either because 1) it was over, ' +
+              'or 2) no further data is available.'
+          );
+          this.spinning = false;
+        });
+        this.sounds.full.onended = function () {};
       } else if (labelsMatch && firstSymbol.winner) {
         this.credit += this.payTable[firstSymbol.label];
         this.winner();
         this.sounds.medium.play();
+        this.sounds.medium.addEventListener('ended', () => {
+          console.log(
+            'Video stopped either because 1) it was over, ' +
+              'or 2) no further data is available.'
+          );
+          this.spinning = false;
+        });
       } else if (typesMatch) {
         this.credit += 1;
         this.sounds.short.play();
+        this.sounds.short.addEventListener('ended', () => {
+          console.log(
+            'Video stopped either because 1) it was over, ' +
+              'or 2) no further data is available.'
+          );
+          this.spinning = false;
+        });
+      } else {
+        this.spinning = false;
       }
     },
     winner() {
@@ -202,7 +226,6 @@ export default {
     spinComplete() {
       this.spinsCompleted++;
       if (this.spinsCompleted === 3) {
-        this.spinning = false;
         this.sounds.spin.pause();
         this.processSpin();
       }
