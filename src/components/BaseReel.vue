@@ -33,7 +33,6 @@ export default {
   props: ['items', 'animationClass'],
   methods: {
     spinComplete() {
-      console.log('inner spin complete');
       this.$emit('complete', '');
     },
   },

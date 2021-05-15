@@ -193,18 +193,11 @@ export default {
       return arr;
     },
     processSpin() {
-      let results = [this.items0[1], this.items1[1], this.items2[1]];
-      results = results.filter((o) => o.type !== 'wild');
-
-      const firstSymbol = results[0];
-      let labelsMatch =
-        results.length === 0 ||
-        results.every((o) => o.label === firstSymbol.label);
-      let typesMatch =
-        results.length === 0 ||
-        results.every((o) => o.type === firstSymbol.type);
-
-      if (!results.length) {
+      const result = this.getScore();
+      this.credit += result.credit;
+      this.playWinningSound(result.label);
+      /*y
+       {
         this.credit += this.payTable['wild'];
         this.winner();
         this.sounds.full.play();
@@ -217,7 +210,49 @@ export default {
         this.sounds.short.play();
       } else {
         this.spinning = false;
+      }*/
+    },
+    playWinningSound(label) {
+      if (label === 'JACKPOT') {
+        this.sounds.full.play();
+      } else {
+        this.sounds.short.play();
       }
+    },
+    getScore() {
+      let results = [this.items0[1], this.items1[1], this.items2[1]];
+      results = results.filter((o) => o.type !== 'wild');
+
+      const firstSymbol = results[0];
+      let labelsMatch =
+        results.length === 0 ||
+        results.every((o) => o.label === firstSymbol.label);
+      let typesMatch =
+        results.length === 0 ||
+        results.every((o) => o.type === firstSymbol.type);
+      let result;
+      if (!results.length) {
+        result = {
+          result: 'JACKPOT',
+          credit: this.payTable['wild'],
+        };
+      } else if (labelsMatch && firstSymbol.winner) {
+        result = {
+          result: firstSymbol.label,
+          credit: this.payTable[firstSymbol.label],
+        };
+      } else if (typesMatch) {
+        result = {
+          result: firstSymbol.label,
+          credit: 1,
+        };
+      } else {
+        result = {
+          result: null,
+          credit: 0,
+        };
+      }
+      return result;
     },
     winner() {
       console.log('WINNER');
