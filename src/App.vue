@@ -1,5 +1,6 @@
 <template>
   <the-credit-meter :credit="credit"></the-credit-meter>
+
   <div>
     <base-reel
       class="base-reel"
@@ -24,8 +25,8 @@
     ></base-reel>
   </div>
 
-  <button @click="spin(1)" :disabled="spinning">Bet 1</button>
-  <button @click="spin(2)" :disabled="spinning">Bet 2</button>
+  <button @click="spin(1)" :disabled="spinning || broke">Bet 1</button>
+  <button @click="spin(2)" :disabled="spinning || broke">Bet 2</button>
 </template>
 
 <script>
@@ -35,9 +36,9 @@ export default {
   data() {
     return {
       credit: 50,
-      animationClass0: '',
-      animationClass1: '',
-      animationClass2: '',
+      animationClass0: 'no-bounce',
+      animationClass1: 'no-bounce',
+      animationClass2: 'no-bounce',
       items0: [],
       items1: [],
       items2: [],
@@ -48,8 +49,9 @@ export default {
         full: new Audio('/assets/audio/full.mp3'),
         spin: new Audio('/assets/audio/spin.wav'),
       },
+      playerPlaying: false,
       spinning: false,
-      animationTrigger: false,
+      animationTrigger: true,
       spinsCompleted: 0,
       payTable: {
         Prince: 1000,
@@ -60,7 +62,6 @@ export default {
         '2 Boxes': 20,
         '1 Box': 10,
       },
-
       items: [
         {
           winner: true,
@@ -132,18 +133,38 @@ export default {
       ],
     };
   },
+  computed: {
+    broke() {
+      return this.credit < 1;
+    },
+  },
   components: {
     TheCreditMeter,
     BaseReel,
   },
-  computed: {},
+  mounted() {
+    this.sounds.full.addEventListener('ended', () => {
+      this.spinning = false;
+    });
+    this.sounds.medium.addEventListener('ended', () => {
+      this.spinning = false;
+    });
+    this.sounds.short.addEventListener('ended', () => {
+      this.spinning = false;
+    });
+    this.shuffleItems();
+  },
   methods: {
-    spin(n) {
-      this.spinning = true;
-      this.credit -= n;
+    shuffleItems() {
       this.items0 = this.shuffledItems(this.items);
       this.items1 = this.shuffledItems(this.items);
       this.items2 = this.shuffledItems(this.items);
+    },
+    spin(n) {
+      this.shuffleItems();
+      this.playerPlaying = true;
+      this.spinning = true;
+      this.credit -= n;
       this.animationClass0 =
         'bounce-enter-active-' + Math.floor(Math.random() * 7);
       this.animationClass1 =
@@ -187,35 +208,13 @@ export default {
         this.credit += this.payTable['wild'];
         this.winner();
         this.sounds.full.play();
-        this.sounds.full.addEventListener('ended', () => {
-          console.log(
-            'Video stopped either because 1) it was over, ' +
-              'or 2) no further data is available.'
-          );
-          this.spinning = false;
-        });
-        this.sounds.full.onended = function () {};
       } else if (labelsMatch && firstSymbol.winner) {
         this.credit += this.payTable[firstSymbol.label];
         this.winner();
         this.sounds.medium.play();
-        this.sounds.medium.addEventListener('ended', () => {
-          console.log(
-            'Video stopped either because 1) it was over, ' +
-              'or 2) no further data is available.'
-          );
-          this.spinning = false;
-        });
       } else if (typesMatch) {
         this.credit += 1;
         this.sounds.short.play();
-        this.sounds.short.addEventListener('ended', () => {
-          console.log(
-            'Video stopped either because 1) it was over, ' +
-              'or 2) no further data is available.'
-          );
-          this.spinning = false;
-        });
       } else {
         this.spinning = false;
       }
@@ -224,6 +223,9 @@ export default {
       console.log('WINNER');
     },
     spinComplete() {
+      if (!this.playerPlaying) {
+        return;
+      }
       this.spinsCompleted++;
       if (this.spinsCompleted === 3) {
         this.sounds.spin.pause();

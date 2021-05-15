@@ -33,6 +33,7 @@ export default {
   props: ['items', 'animationClass'],
   methods: {
     spinComplete() {
+      console.log('inner spin complete');
       this.$emit('complete', '');
     },
   },
@@ -55,6 +56,9 @@ export default {
   }
 }
 
+.no-bounce {
+  animation: 0.2s;
+}
 .bounce-enter-active-0 {
   animation: bounce 2s;
 }
