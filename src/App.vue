@@ -1,4 +1,5 @@
 <template>
+  credit: {{ credit }}
   <the-credit-meter :credit="credit"></the-credit-meter>
 
   <div>
@@ -122,11 +123,6 @@ export default {
         },
         {
           type: 'musician',
-          label: 'Bowie',
-          url: '/assets/faces/12-bowie.jpg',
-        },
-        {
-          type: 'musician',
           label: 'Beyonce',
           url: '/assets/faces/13-beyonce.jpg',
         },
@@ -195,27 +191,20 @@ export default {
     processSpin() {
       const result = this.getScore();
       this.credit += result.credit;
-      this.playWinningSound(result.label);
-      /*y
-       {
-        this.credit += this.payTable['wild'];
-        this.winner();
-        this.sounds.full.play();
-      } else if (labelsMatch && firstSymbol.winner) {
-        this.credit += this.payTable[firstSymbol.label];
-        this.winner();
-        this.sounds.medium.play();
-      } else if (typesMatch) {
-        this.credit += 1;
-        this.sounds.short.play();
+      if (result.winner) {
+        this.playWinningSound(result);
       } else {
         this.spinning = false;
-      }*/
+      }
     },
-    playWinningSound(label) {
-      if (label === 'JACKPOT') {
+    playWinningSound(result) {
+      if (result.label === 'JACKPOT') {
         this.sounds.full.play();
-      } else {
+        this.winner(result);
+      } else if (result.winner) {
+        this.sounds.medium.play();
+        this.winner(result);
+      } else if (result.credit) {
         this.sounds.short.play();
       }
     },
@@ -233,17 +222,20 @@ export default {
       let result;
       if (!results.length) {
         result = {
+          winner: true,
           result: 'JACKPOT',
           credit: this.payTable['wild'],
         };
       } else if (labelsMatch && firstSymbol.winner) {
         result = {
+          winner: true,
           result: firstSymbol.label,
           credit: this.payTable[firstSymbol.label],
         };
       } else if (typesMatch) {
         result = {
-          result: firstSymbol.label,
+          winner: false,
+          result: 'Free Spin',
           credit: 1,
         };
       } else {
