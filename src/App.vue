@@ -1,9 +1,9 @@
 <template>
-  <div>
-    <the-splash v-if="showSplash"></the-splash>
+  <main>
+    <the-splash v-if="showSplash" @click="playBirdhouse()"></the-splash>
     <the-birdhouse-animation v-if="showBirdhouse"></the-birdhouse-animation>
     <the-game v-if="showGame"></the-game>
-  </div>
+  </main>
 </template>
 
 <script>
@@ -27,6 +27,7 @@ export default {
   },
   methods: {
     playBirdhouse() {
+      console.log('play birdhouse');
       this.showSplash = false;
       this.showBirdhouse = true;
     },
@@ -53,5 +54,12 @@ body {
   background-color: #9663c4;
   background: url('/assets/img/wood-tile.jpg');
   margin: 0;
+}
+
+main {
+  width: 100%;
+  height: 100vh;
+  text-align: center;
+  margin: auto;
 }
 </style>

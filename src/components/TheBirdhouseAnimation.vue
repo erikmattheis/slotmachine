@@ -1,12 +1,14 @@
 <template>
   <div class="splash">
-    <button @click="playBirdhouse"></button>
+    <button></button>
   </div>
 </template>
 <script>
 export default {
-  data() {},
-  inject: ['playBirdhouse'],
+  name: 'TheBirdhouseAnimation',
+  data() {
+    return {};
+  },
 };
 </script>
 

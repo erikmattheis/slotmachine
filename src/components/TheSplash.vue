@@ -3,23 +3,25 @@
     <img src="/assets/img/logo-transparent.png" />
     <div class="buttons">
       <h4>Please verify your age to enter.</h4>
-      <button @click="playBirdhouse()">I AM OVER 47</button>
-      <button>47</button>
-      <button>
-        <span class="outer">
-          <span class="top">I AM UNDER</span>
-          <span class="bottom">47</span>
-        </span>
-      </button>
+
+      <wide-three-d-button color="red">
+        <template v-slot:top>I AM OVER</template>
+        <template v-slot:bottom>
+          <h3>47</h3>
+        </template>
+      </wide-three-d-button>
     </div>
   </div>
 </template>
 <script>
+import WideThreeDButton from './WideThreeDButton';
 export default {
+  name: 'TheSplash',
   data() {
     return {};
   },
-  inject: ['playBirdhouse'],
+  components: { WideThreeDButton },
+  methods: {},
 };
 </script>
 
@@ -27,9 +29,14 @@ export default {
 .splash {
   width: 100%;
   height: 100vh;
+  position: relative;
+  text-align: center;
 }
 .buttons {
-  text-align: center;
-  transform: translateY(-100%);
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  height: 200px;
+  margin: auto;
 }
 </style>

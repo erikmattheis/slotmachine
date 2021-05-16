@@ -1,14 +1,15 @@
 <template>
   <button>
     <span class="outer">
-      <span class="top">PLAY </span>
-      <span class="bottom">ONE CREDIT</span>
+      <span class="top"><slot name="top"></slot></span>
+      <span class="bottom"><slot name="bottom"></slot></span>
     </span>
   </button>
 </template>
 
 <script>
 export default {
+  name: 'WideThreeDButton',
   props: ['color'],
 };
 </script>
