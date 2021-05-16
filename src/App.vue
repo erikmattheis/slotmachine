@@ -26,13 +26,16 @@
     ></base-reel>
   </div>
 
-  <button @click="spin(1)" :disabled="spinning || broke">Bet 1</button>
-  <button @click="spin(2)" :disabled="spinning || broke">Bet 2</button>
+  <three-d-button
+    @click="spin(1)"
+    :disabled="spinning || broke"
+  ></three-d-button>
 </template>
 
 <script>
 import TheCreditMeter from './components/TheCreditMeter';
 import BaseReel from './components/BaseReel';
+import ThreeDButton from './components/ThreeDButton';
 export default {
   data() {
     return {
@@ -137,6 +140,7 @@ export default {
   components: {
     TheCreditMeter,
     BaseReel,
+    ThreeDButton,
   },
   mounted() {
     this.sounds.full.addEventListener('ended', () => {
@@ -264,6 +268,8 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Overpass+Mono:wght@700&display=swap');
+
 * {
   box-sizing: border-box;
 }

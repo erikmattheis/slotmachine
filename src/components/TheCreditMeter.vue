@@ -95,7 +95,7 @@ export default {
 
 <style scoped>
 h3 {
-  font-family: monospace;
+  font-family: 'Overpass Mono', monospace;
   font-size: 48px;
 }
 @keyframes bounce {
