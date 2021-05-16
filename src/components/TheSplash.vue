@@ -1,33 +1,35 @@
 <template>
-  <the-game></the-game>
+  <div class="splash">
+    <img src="/assets/img/logo-transparent.png" />
+    <div class="buttons">
+      <h4>Please verify your age to enter.</h4>
+      <button @click="playBirdhouse()">I AM OVER 47</button>
+      <button>47</button>
+      <button>
+        <span class="outer">
+          <span class="top">I AM UNDER</span>
+          <span class="bottom">47</span>
+        </span>
+      </button>
+    </div>
+  </div>
 </template>
-
 <script>
-import TheGame from './components/TheGame';
-
 export default {
   data() {
     return {};
   },
-  components: {
-    TheGame,
-  },
-  methods: {},
+  inject: ['playBirdhouse'],
 };
 </script>
 
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Overpass+Mono:wght@700&display=swap');
-
-* {
-  box-sizing: border-box;
+<style scoped>
+.splash {
+  width: 100%;
+  height: 100vh;
 }
-
-html {
-  font-family: sans-serif;
-}
-
-body {
-  margin: 0;
+.buttons {
+  text-align: center;
+  transform: translateY(-100%);
 }
 </style>
