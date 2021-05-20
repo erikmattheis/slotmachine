@@ -93,12 +93,16 @@ li {
 }
 
 .reel-window {
-  background-image: url(/assets/img/reel-bg.png);
   width: 200px;
-  height: 575px;
+  height: 475px;
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
 }
 .offset {
-  transform: translateY(100px);
+  transform: translateY(-200px);
+}
+@media (-webkit-min-device-pixel-ratio: 2) {
+  .reel-window {
+    max-width: 28vw;
+  }
 }
 </style>

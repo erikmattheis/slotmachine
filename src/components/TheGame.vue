@@ -3,28 +3,31 @@
     <div id="game">
       <the-credit-meter :credit="credit" class="credit"></the-credit-meter>
 
-      <div>
-        <base-reel
-          class="base-reel"
-          v-if="animationTrigger"
-          :items="items0"
-          :animation-class="animationClass0"
-          @complete="spinComplete"
-        ></base-reel>
-        <base-reel
-          class="base-reel"
-          v-if="animationTrigger"
-          :items="items1"
-          :animation-class="animationClass1"
-          @complete="spinComplete"
-        ></base-reel>
-        <base-reel
-          class="base-reel"
-          v-if="animationTrigger"
-          :items="items2"
-          :animation-class="animationClass2"
-          @complete="spinComplete"
-        ></base-reel>
+      <div class="reels-container">
+        <div class="reels">
+          <base-reel
+            class="base-reel"
+            v-if="animationTrigger"
+            :items="items0"
+            :animation-class="animationClass0"
+            @complete="spinComplete"
+          ></base-reel>
+          <base-reel
+            class="base-reel"
+            v-if="animationTrigger"
+            :items="items1"
+            :animation-class="animationClass1"
+            @complete="spinComplete"
+          ></base-reel>
+          <base-reel
+            class="base-reel"
+            v-if="animationTrigger"
+            :items="items2"
+            :animation-class="animationClass2"
+            @complete="spinComplete"
+          ></base-reel>
+        </div>
+        <div class="reels-overlay"></div>
       </div>
 
       <three-d-button
@@ -295,10 +298,11 @@ export default {
 
 <style scoped>
 #game-wrapper {
-  width: 1130px;
-  height: 2446px;
+  width: 665px;
+  height: 426px;
 }
 #game {
+  background-attachment: scroll;
   background-image: url(/assets/img/game-bg.jpg);
   background-size: cover;
   position: relative;
@@ -309,7 +313,40 @@ export default {
   position: absolute;
   top: 500px;
 }
+.reels-conteiner {
+  position: relative;
+  width: 665px;
+  height: 426px;
+}
+.reels {
+  background-attachment: scroll;
+  background-image: url(/assets/img/reels-bg.png);
+  background-size: cover;
+  width: 665px;
+  height: 426px;
+}
+.reels-overlay {
+  background-attachment: scroll;
+  background-image: url(/assets/img/reels-overlay.png);
+  background-size: cover;
+  position: absolute;
+  z-index: 100;
+  left: 0;
+  top: 0;
+  width: 665px;
+  height: 426px;
+}
 .base-reel {
   float: left;
+}
+
+@media (-webkit-min-device-pixel-ratio: 2) {
+  #game-wrapper,
+  #game,
+  .reels-conteiner,
+  .reels,
+  .reels-overlay {
+    max-width: 100vw;
+  }
 }
 </style>
