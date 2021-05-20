@@ -93,12 +93,12 @@ li {
 }
 
 .reel-window {
-  width: 100px;
-  height: 200px;
+  width: 200px;
+  height: 275px;
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
 }
 
-.offset {
-  transform: translateY(-50px);
-}
+/* .offset {
+  transform: translateY(100px);
+} */
 </style>

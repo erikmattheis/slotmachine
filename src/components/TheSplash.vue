@@ -5,10 +5,9 @@
       <h4>Please verify your age to enter.</h4>
 
       <wide-three-d-button color="red">
-        <template v-slot:top>I AM OVER</template>
-        <template v-slot:bottom>
-          <h3>47</h3>
-        </template>
+        <template v-slot
+          >I AM OVER <span class="light-purple">47</span></template
+        >
       </wide-three-d-button>
     </div>
   </div>
@@ -26,6 +25,9 @@ export default {
 </script>
 
 <style scoped>
+img {
+  max-width: 100%;
+}
 .splash {
   width: 100%;
   height: 100vh;
@@ -38,5 +40,9 @@ export default {
   bottom: 0;
   height: 200px;
   margin: auto;
+}
+
+.light-purple {
+  color: #d6b1f7;
 }
 </style>

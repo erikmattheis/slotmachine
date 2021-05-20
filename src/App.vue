@@ -29,7 +29,8 @@ export default {
     playBirdhouse() {
       console.log('play birdhouse');
       this.showSplash = false;
-      this.showBirdhouse = true;
+      this.showBirdhouse = false;
+      this.showGame = true;
     },
     playGame() {
       this.showBirdhouse = false;
@@ -52,7 +53,7 @@ html {
 
 body {
   background-color: #9663c4;
-  background: url('/assets/img/wood-tile.jpg');
+  /* background-image: url('/assets/img/wood-tile.jpg'); */
   margin: 0;
 }
 

@@ -1,34 +1,38 @@
 <template>
-  <the-credit-meter :credit="credit"></the-credit-meter>
+  <section id="game-wrapper">
+    <div id="game">
+      <the-credit-meter :credit="credit" class="credit"></the-credit-meter>
 
-  <div>
-    <base-reel
-      class="base-reel"
-      v-if="animationTrigger"
-      :items="items0"
-      :animation-class="animationClass0"
-      @complete="spinComplete"
-    ></base-reel>
-    <base-reel
-      class="base-reel"
-      v-if="animationTrigger"
-      :items="items1"
-      :animation-class="animationClass1"
-      @complete="spinComplete"
-    ></base-reel>
-    <base-reel
-      class="base-reel"
-      v-if="animationTrigger"
-      :items="items2"
-      :animation-class="animationClass2"
-      @complete="spinComplete"
-    ></base-reel>
-  </div>
+      <div>
+        <base-reel
+          class="base-reel"
+          v-if="animationTrigger"
+          :items="items0"
+          :animation-class="animationClass0"
+          @complete="spinComplete"
+        ></base-reel>
+        <base-reel
+          class="base-reel"
+          v-if="animationTrigger"
+          :items="items1"
+          :animation-class="animationClass1"
+          @complete="spinComplete"
+        ></base-reel>
+        <base-reel
+          class="base-reel"
+          v-if="animationTrigger"
+          :items="items2"
+          :animation-class="animationClass2"
+          @complete="spinComplete"
+        ></base-reel>
+      </div>
 
-  <three-d-button
-    @click="spin(1)"
-    :disabled="spinning || broke"
-  ></three-d-button>
+      <three-d-button
+        @click="spin(1)"
+        :disabled="spinning || broke"
+      ></three-d-button>
+    </div>
+  </section>
 </template>
 
 <script>
@@ -70,63 +74,63 @@ export default {
           winner: true,
           type: 'wild',
           label: 'Prince',
-          url: '/assets/faces/00-prince.jpg',
+          url: '/assets/faces/00-prince.png',
         },
         {
           winner: true,
           type: 'ibis',
           label: 'Ibis',
-          url: '/assets/faces/01-ibis.jpg',
+          url: '/assets/faces/01-ibis.png',
         },
         {
           winner: true,
           type: 'archie',
           label: 'Archie',
-          url: '/assets/faces/03-archie.jpg',
+          url: '/assets/faces/03-archie.png',
         },
         {
           winner: true,
           type: 'cake',
           label: 'Cake',
-          url: '/assets/faces/04-cake.jpg',
+          url: '/assets/faces/04-cake.png',
         },
         {
           winner: true,
           type: 'box',
           label: '1 Box',
-          url: '/assets/faces/06-bar-1.jpg',
+          url: '/assets/faces/06-bar-1.png',
         },
         {
           winner: true,
           type: 'box',
           label: '2 Boxes',
-          url: '/assets/faces/07-bar-2.jpg',
+          url: '/assets/faces/07-bar-2.png',
         },
         {
           winner: true,
           type: 'box',
           label: '3 Boxes',
-          url: '/assets/faces/08-bar-3.jpg',
+          url: '/assets/faces/08-bar-3.png',
         },
         {
           type: 'musician',
           label: 'Elton',
-          url: '/assets/faces/09-elton.jpg',
+          url: '/assets/faces/09-beyonce.png',
         },
         {
           type: 'musician',
           label: 'Lady Gaga',
-          url: '/assets/faces/10-gaga.jpg',
+          url: '/assets/faces/10-bowie.png',
+        },
+        {
+          type: 'musician',
+          label: 'Lady Gaga',
+          url: '/assets/faces/11-freddie.png',
         },
         {
           type: 'musician',
           label: 'The Artist',
-          url: '/assets/faces/11-prince.jpg',
-        },
-        {
-          type: 'musician',
-          label: 'Beyonce',
-          url: '/assets/faces/13-beyonce.jpg',
+          url: '/assets/faces/12-gaga.png',
         },
       ],
     };
@@ -267,6 +271,21 @@ export default {
 </script>
 
 <style scoped>
+#game-wrapper {
+  width: 1130px;
+  height: 2446px;
+}
+#game {
+  background-image: url(/assets/img/game-bg.jpg);
+  background-size: cover;
+  position: relative;
+}
+.credit {
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  top: 500px;
+}
 .base-reel {
   float: left;
 }
