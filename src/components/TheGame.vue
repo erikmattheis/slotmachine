@@ -61,13 +61,15 @@ export default {
       animationTrigger: true,
       spinsCompleted: 0,
       payTable: {
-        Prince: 1000,
+        Prince: 500,
         Ibis: 200,
         Archie: 100,
         Cake: 50,
         '3 Boxes': 30,
         '2 Boxes': 20,
         '1 Box': 10,
+        boxes: 5,
+        musicians: 2,
       },
       items: [
         {
@@ -190,59 +192,80 @@ export default {
       let randomIndex;
       for (let i = 0; i < array.length; i++) {
         randomIndex = Math.floor(Math.random() * array.length);
+        if (randomIndex === 0) {
+          randomIndex = this.reduceProbability(0.8, randomIndex);
+        } else if (randomIndex === 1) {
+          randomIndex = this.reduceProbability(0.6, randomIndex);
+        } else if (randomIndex === 2) {
+          randomIndex = this.reduceProbability(0.4, randomIndex);
+        } else if (randomIndex === 3) {
+          randomIndex = this.reduceProbability(0.2, randomIndex);
+        }
+
         arr.push(array[randomIndex]);
       }
 
       return arr;
     },
+    reduceProbability(f, randomIndex) {
+      let i;
+      if (Math.random() < f) {
+        i = Math.floor(Math.random() * this.items.length);
+      } else {
+        i = randomIndex;
+      }
+      return i;
+    },
     processSpin() {
       const result = this.getScore();
       this.credit += result.credit;
-      if (result.winner) {
-        this.playWinningSound(result);
-      } else {
-        this.spinning = false;
-      }
+
+      this.playWinningSoundIfWinner(result);
     },
-    playWinningSound(result) {
+    playWinningSoundIfWinner(result) {
       if (result.label === 'JACKPOT') {
         this.sounds.full.play();
         this.winner(result);
+        console.log('jackpot!');
       } else if (result.winner) {
+        console.log('big winner!');
         this.sounds.medium.play();
         this.winner(result);
       } else if (result.credit) {
+        console.log('free spin');
         this.sounds.short.play();
+      } else {
+        console.log('nothing');
+        this.spinning = false;
       }
     },
     getScore() {
       let results = [this.items0[1], this.items1[1], this.items2[1]];
       results = results.filter((o) => o.type !== 'wild');
-
+      console.log('length after wild', results.length);
       const firstSymbol = results[0];
       let labelsMatch =
         results.length === 0 ||
         results.every((o) => o.label === firstSymbol.label);
-      let typesMatch =
-        results.length === 0 ||
-        results.every((o) => o.type === firstSymbol.type);
+      let typesMatch = results.every((o) => o.type === firstSymbol.type);
       let result;
       if (!results.length) {
         result = {
           winner: true,
-          result: 'JACKPOT',
+          label: 'JACKPOT',
           credit: this.payTable['wild'],
         };
       } else if (labelsMatch && firstSymbol.winner) {
         result = {
           winner: true,
-          result: firstSymbol.label,
+          label: firstSymbol.label,
           credit: this.payTable[firstSymbol.label],
         };
       } else if (typesMatch) {
         result = {
           winner: false,
-          result: 'Free Spin',
+          label: 'Free Spin',
+          type: firstSymbol.type,
           credit: 1,
         };
       } else {

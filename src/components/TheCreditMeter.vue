@@ -1,7 +1,6 @@
 <template>
   <div>
     <h3>{{ paddedCurrentValue }}</h3>
-    credit: {{ credit }}<br />
   </div>
   <!--
   <span
@@ -50,7 +49,7 @@ export default {
   data() {
     return {
       currentValue: 0,
-      paddedCurrentValue: 0,
+      paddedCurrentValue: '',
       interval: false,
       /*
       n100000: 0,

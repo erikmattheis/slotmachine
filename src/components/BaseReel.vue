@@ -93,12 +93,12 @@ li {
 }
 
 .reel-window {
+  background-image: url(/assets/img/reel-bg.png);
   width: 200px;
-  height: 275px;
+  height: 575px;
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
 }
-
-/* .offset {
+.offset {
   transform: translateY(100px);
-} */
+}
 </style>

@@ -57,4 +57,7 @@ button:hover {
   background: #66cbe1;
   box-shadow: none;
 }
+button:disabled {
+  opacity: 0.5;
+}
 </style>
