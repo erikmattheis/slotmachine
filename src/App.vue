@@ -14,9 +14,9 @@ import TheGame from './components/TheGame';
 export default {
   data() {
     return {
-      showSplash: true,
+      showSplash: false,
       showBirdhouse: false,
-      showGame: false,
+      showGame: true,
     };
   },
   provide: ['playBirdhouse'],

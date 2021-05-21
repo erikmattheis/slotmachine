@@ -2,56 +2,23 @@
   <section id="game-wrapper">
     <div id="game">
       <the-credit-meter :credit="credit" class="credit"></the-credit-meter>
-
-      <div class="reels-container">
-        <div class="reels">
-          <base-reel
-            class="base-reel"
-            v-if="animationTrigger"
-            :items="items0"
-            :animation-class="animationClass0"
-            @complete="spinComplete"
-          ></base-reel>
-          <base-reel
-            class="base-reel"
-            v-if="animationTrigger"
-            :items="items1"
-            :animation-class="animationClass1"
-            @complete="spinComplete"
-          ></base-reel>
-          <base-reel
-            class="base-reel"
-            v-if="animationTrigger"
-            :items="items2"
-            :animation-class="animationClass2"
-            @complete="spinComplete"
-          ></base-reel>
-        </div>
-        <div class="reels-overlay"></div>
-      </div>
-
-      <three-d-button
-        @click="spin(1)"
-        :disabled="spinning || broke"
-      ></three-d-button>
+      <the-reels
+        :animation-trigger="animationTrigger"
+        @spins-complete="processSpin()"
+      ></the-reels>
+      <three-d-button @click="spin(1)" :disabled="broke"></three-d-button>
     </div>
   </section>
 </template>
 
 <script>
 import TheCreditMeter from './TheCreditMeter';
-import BaseReel from './BaseReel';
+import TheReels from './TheReels';
 import ThreeDButton from './ThreeDButton';
 export default {
   data() {
     return {
       credit: 50,
-      animationClass0: 'no-bounce',
-      animationClass1: 'no-bounce',
-      animationClass2: 'no-bounce',
-      items0: [],
-      items1: [],
-      items2: [],
       sounds: {
         click: new Audio('/assets/audio/click.wav'),
         short: new Audio('/assets/audio/short.mp3'),
@@ -61,8 +28,8 @@ export default {
       },
       playerPlaying: false,
       spinning: false,
-      animationTrigger: true,
       spinsCompleted: 0,
+      animationTrigger: true,
       payTable: {
         Prince: 500,
         Ibis: 200,
@@ -147,7 +114,7 @@ export default {
   },
   components: {
     TheCreditMeter,
-    BaseReel,
+    TheReels,
     ThreeDButton,
   },
   mounted() {
@@ -163,64 +130,23 @@ export default {
     this.shuffleItems();
   },
   methods: {
-    shuffleItems() {
-      this.items0 = this.shuffledItems(this.items);
-      this.items1 = this.shuffledItems(this.items);
-      this.items2 = this.shuffledItems(this.items);
-    },
     spin(n) {
-      this.shuffleItems();
       this.playerPlaying = true;
       this.spinning = true;
       this.credit -= n;
-      this.animationClass0 =
-        'bounce-enter-active-' + Math.floor(Math.random() * 7);
-      this.animationClass1 =
-        'bounce-enter-active-' + Math.floor(Math.random() * 7);
-      this.animationClass2 =
-        'bounce-enter-active-' + Math.floor(Math.random() * 7);
       this.animationTrigger = false;
-      this.spinsCompleted = 0;
       this.sounds.click.play();
       setTimeout(
         function () {
           this.sounds.spin.play();
           this.animationTrigger = true;
         }.bind(this),
-        0
+        1000
       );
     },
-    shuffledItems(array) {
-      const arr = [];
-      let randomIndex;
-      for (let i = 0; i < array.length; i++) {
-        randomIndex = Math.floor(Math.random() * array.length);
-        if (randomIndex === 0) {
-          randomIndex = this.reduceProbability(0.8, randomIndex);
-        } else if (randomIndex === 1) {
-          randomIndex = this.reduceProbability(0.6, randomIndex);
-        } else if (randomIndex === 2) {
-          randomIndex = this.reduceProbability(0.4, randomIndex);
-        } else if (randomIndex === 3) {
-          randomIndex = this.reduceProbability(0.2, randomIndex);
-        }
 
-        arr.push(array[randomIndex]);
-      }
-
-      return arr;
-    },
-    reduceProbability(f, randomIndex) {
-      let i;
-      if (Math.random() < f) {
-        i = Math.floor(Math.random() * this.items.length);
-      } else {
-        i = randomIndex;
-      }
-      return i;
-    },
-    processSpin() {
-      const result = this.getScore();
+    processSpin(results) {
+      const result = this.getScore(results);
       this.credit += result.credit;
 
       this.playWinningSoundIfWinner(result);
