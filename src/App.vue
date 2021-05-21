@@ -1,6 +1,6 @@
 <template>
   <main>
-    <the-splash v-if="showSplash" @click="playBirdhouse()"></the-splash>
+    <the-splash v-if="showSplash" @click="playBirdhouse"></the-splash>
     <the-birdhouse-animation v-if="showBirdhouse"></the-birdhouse-animation>
     <the-game v-if="showGame"></the-game>
   </main>

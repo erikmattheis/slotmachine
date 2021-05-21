@@ -1,57 +1,52 @@
 <template>
-  <section id="game-wrapper">
-    <div id="game">
-      <the-credit-meter :credit="credit" class="credit"></the-credit-meter>
-
-      <div class="reels-container">
-        <div class="reels">
-          <base-reel
-            class="base-reel"
-            v-if="animationTrigger"
-            :items="items0"
-            :animation-class="animationClass0"
-            @complete="spinComplete"
-          ></base-reel>
-          <base-reel
-            class="base-reel"
-            v-if="animationTrigger"
-            :items="items1"
-            :animation-class="animationClass1"
-            @complete="spinComplete"
-          ></base-reel>
-          <base-reel
-            class="base-reel"
-            v-if="animationTrigger"
-            :items="items2"
-            :animation-class="animationClass2"
-            @complete="spinComplete"
-          ></base-reel>
-        </div>
-        <div class="reels-overlay"></div>
-      </div>
-
-      <three-d-button
-        @click="spin(1)"
-        :disabled="spinning || broke"
-      ></three-d-button>
+  <div class="reels-container">
+    <div class="reels">
+      <base-reel
+        class="base-reel"
+        v-if="animationTrigger"
+        :items="items0"
+        :animation-class="animationClass0"
+        @complete="spinComplete"
+      ></base-reel>
+      <base-reel
+        class="base-reel"
+        v-if="animationTrigger"
+        :items="items1"
+        :animation-class="animationClass1"
+        @complete="spinComplete"
+      ></base-reel>
+      <base-reel
+        class="base-reel"
+        v-if="animationTrigger"
+        :items="items2"
+        :animation-class="animationClass2"
+        @complete="spinComplete"
+      ></base-reel>
     </div>
-  </section>
+  </div>
 </template>
 
 <script>
-import TheCreditMeter from './TheCreditMeter';
 import BaseReel from './BaseReel';
-import ThreeDButton from './ThreeDButton';
 export default {
+  components: {
+    BaseReel,
+  },
   data() {
     return {
-      credit: 50,
       animationClass0: 'no-bounce',
       animationClass1: 'no-bounce',
       animationClass2: 'no-bounce',
+      animationTrigger: true,
       items0: [],
       items1: [],
       items2: [],
+    };
+  },
+  props: ['items', 'animationClass'],
+  data() {
+    return {
+      credit: 50,
       sounds: {
         click: new Audio('/assets/audio/click.wav'),
         short: new Audio('/assets/audio/short.mp3'),
@@ -61,7 +56,7 @@ export default {
       },
       playerPlaying: false,
       spinning: false,
-      animationTrigger: true,
+
       spinsCompleted: 0,
       payTable: {
         Prince: 500,
@@ -147,7 +142,7 @@ export default {
   },
   components: {
     TheCreditMeter,
-    BaseReel,
+    TheReels,
     ThreeDButton,
   },
   mounted() {
@@ -297,22 +292,6 @@ export default {
 </script>
 
 <style scoped>
-#game-wrapper {
-  width: 665px;
-  height: 426px;
-}
-#game {
-  background-attachment: scroll;
-  background-image: url(/assets/img/game-bg.jpg);
-  background-size: cover;
-  position: relative;
-}
-.credit {
-  width: 100%;
-  text-align: center;
-  position: absolute;
-  top: 500px;
-}
 .reels-conteiner {
   position: relative;
   width: 665px;
@@ -338,65 +317,5 @@ export default {
 }
 .base-reel {
   float: left;
-}
-
-@media (-webkit-min-device-pixel-ratio: 2) {
-  #game-wrapper,
-  #game,
-  .reels-conteiner,
-  .reels,
-  .reels-overlay {
-    max-width: 100vw;
-  }
-}
-button {
-  color: black;
-  text-decoration: none;
-  font: bold 18px Arial;
-  position: relative;
-  display: inline-block;
-  margin-right: 15px;
-  padding: 15px;
-  border-radius: 85px;
-  width: 85px;
-  height: 85px;
-  outline: none;
-  transition: all 0.2s ease-in-out;
-  background: #a6e9f7;
-  box-shadow: 0 8px 0 #529dad, 0 0 3px rgba(0, 0, 0, 0.2), 0 20px 20px #eee;
-}
-button span.outer {
-  text-align: center;
-  width: 100%;
-  display: block;
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
-}
-button span.outer span.top {
-  display: block;
-  padding-bottom: 4px;
-}
-button span.outer span.bottom {
-  border-top: 1px solid black;
-  padding-top: 4px;
-  display: block;
-  text-transform: uppercase;
-  line-height: 12px;
-  font-size: 60%;
-}
-button:hover {
-  background: #9cc62b;
-  box-shadow: none;
-  transform: translate3D(0, 8px, 0);
-  background: #66cbe1;
-  box-shadow: none;
-}
-button:disabled {
-  opacity: 0.5;
-}
-img {
-  width: 200px;
-  height: 275px;
 }
 </style>
