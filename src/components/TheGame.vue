@@ -4,7 +4,7 @@
       <the-credit-meter :credit="credit" class="credit"></the-credit-meter>
       <the-reels
         :animation-trigger="animationTrigger"
-        @spins-complete="processSpin()"
+        @spins-complete="processResults"
       ></the-reels>
       <three-d-button @click="spin(1)" :disabled="broke"></three-d-button>
     </div>
@@ -127,7 +127,6 @@ export default {
     this.sounds.short.addEventListener('ended', () => {
       this.spinning = false;
     });
-    this.shuffleItems();
   },
   methods: {
     spin(n) {
@@ -145,10 +144,11 @@ export default {
       );
     },
 
-    processSpin(results) {
+    processResults(results) {
+      console.log('process', results);
       const result = this.getScore(results);
       this.credit += result.credit;
-
+      this.sounds.spin.pause();
       this.playWinningSoundIfWinner(result);
     },
     playWinningSoundIfWinner(result) {
@@ -168,8 +168,7 @@ export default {
         this.spinning = false;
       }
     },
-    getScore() {
-      let results = [this.items0[1], this.items1[1], this.items2[1]];
+    getScore(results) {
       results = results.filter((o) => o.type !== 'wild');
       console.log('length after wild', results.length);
       const firstSymbol = results[0];

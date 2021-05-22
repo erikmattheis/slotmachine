@@ -5,7 +5,7 @@
         appear
         name="bounce"
         :enter-active-class="animationClass"
-        @after-enter="spinComplete"
+        @after-enter="$emit('spin-complete')"
       >
         <ul>
           <symbol-face
@@ -31,11 +31,6 @@ export default {
     return {};
   },
   props: ['items', 'animationClass'],
-  methods: {
-    spinComplete() {
-      this.$emit('complete', '');
-    },
-  },
 };
 </script>
 

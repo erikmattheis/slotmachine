@@ -6,21 +6,21 @@
         v-if="animationTrigger"
         :items="items0"
         :animation-class="animationClass0"
-        @complete="spinComplete"
+        @spin-complete="spinComplete"
       ></base-reel>
       <base-reel
         class="base-reel"
         v-if="animationTrigger"
         :items="items1"
         :animation-class="animationClass1"
-        @complete="spinComplete"
+        @spin-complete="spinComplete"
       ></base-reel>
       <base-reel
         class="base-reel"
         v-if="animationTrigger"
         :items="items2"
         :animation-class="animationClass2"
-        @complete="spinComplete"
+        @spin-complete="spinComplete"
       ></base-reel>
     </div>
     <div class="reels-overlay"></div>
@@ -140,7 +140,6 @@ export default {
     },
     spin() {
       this.shuffleItems();
-      this.playerPlaying = true;
       this.spinning = true;
       this.animationClass0 =
         'bounce-enter-active-' + Math.floor(Math.random() * 7);
@@ -179,17 +178,11 @@ export default {
       }
       return i;
     },
-    processSpin() {},
 
-    winner() {
-      console.log('WINNER');
-    },
     spinComplete() {
-      if (!this.playerPlaying) {
-        return;
-      }
+      console.log('spin complete');
       this.spinsCompleted++;
-      if (this.spinsCompleted === 3) {
+      if (this.spinsCompleted === 2) {
         const results = [this.items0[1], this.items1[1], this.items2[1]];
         this.$emit[('spins-complete', results)];
       }
