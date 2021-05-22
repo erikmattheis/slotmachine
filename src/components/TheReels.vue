@@ -125,6 +125,9 @@ export default {
   components: {
     BaseReel,
   },
+  mounted() {
+    this.shuffleItems();
+  },
   watch: {
     animationTrigger: function (newValue) {
       if (newValue) {
@@ -180,7 +183,7 @@ export default {
     },
     spinComplete() {
       this.spinsCompleted++;
-      if (this.spinsCompleted === 2) {
+      if (this.spinsCompleted === 3 && this.items0[1]) {
         const results = [this.items0[1], this.items1[1], this.items2[1]];
         this.$emit('spins-complete', results);
       }

@@ -24,6 +24,7 @@
 <script>
 import SymbolFace from './SymbolFace';
 export default {
+  emits: ['spin-complete'],
   components: {
     SymbolFace,
   },
