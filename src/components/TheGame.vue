@@ -4,7 +4,7 @@
       <the-credit-meter :credit="credit" class="credit"></the-credit-meter>
       <the-reels
         :animation-trigger="animationTrigger"
-        @spins-complete="processResults"
+        @spins-complete="processSpin"
       ></the-reels>
       <three-d-button @click="spin(1)" :disabled="broke"></three-d-button>
     </div>
@@ -143,13 +143,15 @@ export default {
         1000
       );
     },
+    processSpin(results) {
+      if (this.playerPlaying) {
+        console.log('process', results);
 
-    processResults(results) {
-      console.log('process', results);
-      const result = this.getScore(results);
-      this.credit += result.credit;
-      this.sounds.spin.pause();
-      this.playWinningSoundIfWinner(result);
+        const result = this.getScore(results);
+        this.credit += result.credit;
+        this.sounds.spin.pause();
+        this.playWinningSoundIfWinner(result);
+      }
     },
     playWinningSoundIfWinner(result) {
       if (result.label === 'JACKPOT') {
@@ -206,16 +208,6 @@ export default {
     },
     winner() {
       console.log('WINNER');
-    },
-    spinComplete() {
-      if (!this.playerPlaying) {
-        return;
-      }
-      this.spinsCompleted++;
-      if (this.spinsCompleted === 3) {
-        this.sounds.spin.pause();
-        this.processSpin();
-      }
     },
   },
 };
