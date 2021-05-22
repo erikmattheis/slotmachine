@@ -145,8 +145,6 @@ export default {
     },
     processSpin(results) {
       if (this.playerPlaying) {
-        console.log('process', results);
-
         const result = this.getScore(results);
         this.credit += result.credit;
         this.sounds.spin.pause();
@@ -157,22 +155,17 @@ export default {
       if (result.label === 'JACKPOT') {
         this.sounds.full.play();
         this.winner(result);
-        console.log('jackpot!');
       } else if (result.winner) {
-        console.log('big winner!');
         this.sounds.medium.play();
         this.winner(result);
       } else if (result.credit) {
-        console.log('free spin');
         this.sounds.short.play();
       } else {
-        console.log('nothing');
         this.spinning = false;
       }
     },
     getScore(results) {
       results = results.filter((o) => o.type !== 'wild');
-      console.log('length after wild', results.length);
       const firstSymbol = results[0];
       let labelsMatch =
         results.length === 0 ||

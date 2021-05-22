@@ -127,7 +127,6 @@ export default {
   },
   watch: {
     animationTrigger: function (newValue) {
-      console.log('trigger changed', newValue);
       if (newValue) {
         this.spin();
       }
@@ -179,12 +178,9 @@ export default {
       }
       return i;
     },
-
     spinComplete() {
-      console.log('spin complete');
       this.spinsCompleted++;
       if (this.spinsCompleted === 2) {
-        console.log('emit spin complete');
         const results = [this.items0[1], this.items1[1], this.items2[1]];
         this.$emit('spins-complete', results);
       }

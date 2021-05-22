@@ -27,7 +27,6 @@ export default {
   },
   methods: {
     playBirdhouse() {
-      console.log('play birdhouse');
       this.showSplash = false;
       this.showBirdhouse = false;
       this.showGame = true;
