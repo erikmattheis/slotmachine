@@ -52,7 +52,8 @@ html {
 
 body {
   background-color: #9663c4;
-  /* background-image: url('/assets/img/wood-tile.jpg'); */
+  background-image: url('/assets/img/wood-tile.jpg');
+  background-attachment: scroll;
 }
 #app {
   display: flex;

@@ -80,8 +80,9 @@ export default {
 }
 
 .clip {
+  transform: translate(4px, 4px);
   width: 200px;
-  height: 414px;
+  height: 410px;
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
 }
 
