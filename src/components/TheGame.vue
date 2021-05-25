@@ -1,5 +1,6 @@
 <template>
-  <section id="game-wrapper">
+  <base-reel :items="items" animation-class="bounce-enter-active-0"></base-reel>
+  <section id="game-wrapper" v-if="false">
     <div id="game">
       <the-credit-meter :credit="credit" class="credit"></the-credit-meter>
       <the-reels
@@ -12,6 +13,7 @@
 </template>
 
 <script>
+import BaseReel from './BaseReel';
 import TheCreditMeter from './TheCreditMeter';
 import TheReels from './TheReels';
 import ThreeDButton from './ThreeDButton';
@@ -113,6 +115,7 @@ export default {
     },
   },
   components: {
+    BaseReel,
     TheCreditMeter,
     TheReels,
     ThreeDButton,
@@ -207,9 +210,14 @@ export default {
 </script>
 
 <style scoped>
+.base-reel {
+  float: left;
+  width: 210px;
+}
 #game-wrapper {
   width: 665px;
   height: 426px;
+  margin: auto;
 }
 #game {
   background-attachment: scroll;
@@ -222,32 +230,6 @@ export default {
   text-align: center;
   position: absolute;
   top: 500px;
-}
-.reels-conteiner {
-  position: relative;
-  width: 665px;
-  height: 426px;
-}
-.reels {
-  background-attachment: scroll;
-  background-image: url(/assets/img/reels-bg.png);
-  background-size: cover;
-  width: 665px;
-  height: 426px;
-}
-.reels-overlay {
-  background-attachment: scroll;
-  background-image: url(/assets/img/reels-overlay.png);
-  background-size: cover;
-  position: absolute;
-  z-index: 100;
-  left: 0;
-  top: 0;
-  width: 665px;
-  height: 426px;
-}
-.base-reel {
-  float: left;
 }
 
 @media (-webkit-min-device-pixel-ratio: 2) {

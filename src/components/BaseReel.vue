@@ -1,22 +1,25 @@
 <template>
-  <div class="reel-window">
-    <div class="offset">
-      <transition
-        appear
-        name="bounce"
-        :enter-active-class="animationClass"
-        @after-enter="$emit('spin-complete')"
-      >
-        <ul>
-          <symbol-face
-            :url="item.url"
-            v-for="(item, index) in items"
-            v-bind:key="index"
-          >
-            ></symbol-face
-          >
-        </ul>
-      </transition>
+  <div class="reel-window reel">
+    <div class="reel-overlay"></div>
+    <div class="clip">
+      <div class="offset">
+        <transition
+          appear
+          name="bounce"
+          :enter-active-class="animationClass"
+          @after-enter="$emit('spin-complete')"
+        >
+          <ul>
+            <symbol-face
+              :url="item.url"
+              v-for="(item, index) in items"
+              v-bind:key="index"
+            >
+              ></symbol-face
+            >
+          </ul>
+        </transition>
+      </div>
     </div>
   </div>
 </template>
@@ -76,6 +79,12 @@ export default {
   animation: bounce 2.3s;
 }
 
+.clip {
+  width: 200px;
+  height: 414px;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+}
+
 ul {
   list-style: none;
   display: flex;
@@ -87,18 +96,32 @@ li {
   flex-grow: 1;
   display: flex;
 }
-
 .reel-window {
   width: 200px;
   height: 475px;
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
 }
 .offset {
   transform: translateY(-200px);
 }
-@media (-webkit-min-device-pixel-ratio: 2) {
+.reel {
+  background-attachment: scroll;
+  background-image: url(/assets/img/reel-bg.png);
+  background-size: cover;
+  width: 213px;
+  height: 426px;
+}
+.reel-overlay {
+  background-attachment: scroll;
+  background-image: url(/assets/img/reel-overlay.png);
+  background-size: cover;
+  z-index: 100;
+  position: absolute;
+  width: 213px;
+  height: 426px;
+}
+/* @media (-webkit-min-device-pixel-ratio: 2) {
   .reel-window {
     max-width: 28vw;
   }
-}
+} */
 </style>

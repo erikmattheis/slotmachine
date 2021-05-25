@@ -23,7 +23,6 @@
         @spin-complete="spinComplete"
       ></base-reel>
     </div>
-    <div class="reels-overlay"></div>
   </div>
 </template>
 
@@ -214,24 +213,7 @@ export default {
   width: 665px;
   height: 426px;
 }
-.reels {
-  background-attachment: scroll;
-  background-image: url(/assets/img/reels-bg.png);
-  background-size: cover;
-  width: 665px;
-  height: 426px;
-}
-.reels-overlay {
-  background-attachment: scroll;
-  background-image: url(/assets/img/reels-overlay.png);
-  background-size: cover;
-  position: absolute;
-  z-index: 100;
-  left: 0;
-  top: 0;
-  width: 665px;
-  height: 426px;
-}
+
 .base-reel {
   float: left;
 }

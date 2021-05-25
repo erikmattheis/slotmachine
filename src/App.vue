@@ -53,13 +53,10 @@ html {
 body {
   background-color: #9663c4;
   /* background-image: url('/assets/img/wood-tile.jpg'); */
-  margin: 0;
 }
-
-main {
-  width: 100%;
-  height: 100vh;
-  text-align: center;
-  margin: auto;
+#app {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>
