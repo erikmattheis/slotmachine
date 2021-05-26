@@ -1,6 +1,5 @@
 <template>
-  <base-reel :items="items" animation-class="bounce-enter-active-0"></base-reel>
-  <section id="game-wrapper" v-if="false">
+  <section id="game-wrapper">
     <div id="game">
       <the-credit-meter :credit="credit" class="credit"></the-credit-meter>
       <the-reels
@@ -8,15 +7,16 @@
         @spins-complete="processSpin"
       ></the-reels>
       <three-d-button @click="spin(1)" :disabled="broke"></three-d-button>
+      <the-audio-button @click="toggleSound()"></the-audio-button>
     </div>
   </section>
 </template>
 
 <script>
-import BaseReel from './BaseReel';
 import TheCreditMeter from './TheCreditMeter';
 import TheReels from './TheReels';
 import ThreeDButton from './ThreeDButton';
+import TheAudioButton from './TheAudioButton';
 export default {
   data() {
     return {
@@ -28,6 +28,7 @@ export default {
         full: new Audio('/assets/audio/full.mp3'),
         spin: new Audio('/assets/audio/spin.wav'),
       },
+      audioOn: false,
       playerPlaying: false,
       spinning: false,
       spinsCompleted: 0,
@@ -36,7 +37,6 @@ export default {
         Prince: 500,
         Ibis: 200,
         Archie: 100,
-        Cake: 50,
         '3 Boxes': 30,
         '2 Boxes': 20,
         '1 Box': 10,
@@ -61,12 +61,6 @@ export default {
           type: 'archie',
           label: 'Archie',
           url: '/assets/faces/03-archie.png',
-        },
-        {
-          winner: true,
-          type: 'cake',
-          label: 'Cake',
-          url: '/assets/faces/04-cake.png',
         },
         {
           winner: true,
@@ -115,10 +109,10 @@ export default {
     },
   },
   components: {
-    BaseReel,
     TheCreditMeter,
     TheReels,
     ThreeDButton,
+    TheAudioButton,
   },
   mounted() {
     this.sounds.full.addEventListener('ended', () => {
@@ -132,18 +126,25 @@ export default {
     });
   },
   methods: {
+    toggleSound() {
+      this.audioOn = !this.audioOn;
+    },
     spin(n) {
       this.playerPlaying = true;
       this.spinning = true;
       this.credit -= n;
       this.animationTrigger = false;
-      this.sounds.click.play();
+      if (this.audioOn) {
+        this.sounds.click.play();
+      }
       setTimeout(
         function () {
-          this.sounds.spin.play();
+          if (this.audioOn) {
+            this.sounds.spin.play();
+          }
           this.animationTrigger = true;
         }.bind(this),
-        1000
+        0
       );
     },
     processSpin(results) {
@@ -156,13 +157,19 @@ export default {
     },
     playWinningSoundIfWinner(result) {
       if (result.label === 'JACKPOT') {
-        this.sounds.full.play();
+        if (this.audioOn) {
+          this.sounds.full.play();
+        }
         this.winner(result);
       } else if (result.winner) {
-        this.sounds.medium.play();
+        if (this.audioOn) {
+          this.sounds.medium.play();
+        }
         this.winner(result);
       } else if (result.credit) {
-        this.sounds.short.play();
+        if (this.audioOn) {
+          this.sounds.short.play();
+        }
       } else {
         this.spinning = false;
       }

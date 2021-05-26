@@ -5,7 +5,6 @@
     <the-game v-if="showGame"></the-game>
   </main>
 </template>
-
 <script>
 import TheSplash from './components/TheSplash';
 import TheBirdhouseAnimation from './components/TheBirdhouseAnimation';
@@ -52,8 +51,6 @@ html {
 
 body {
   background-color: #9663c4;
-  background-image: url('/assets/img/wood-tile.jpg');
-  background-attachment: scroll;
 }
 #app {
   display: flex;

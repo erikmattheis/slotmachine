@@ -48,7 +48,6 @@ export default {
         Prince: 500,
         Ibis: 200,
         Archie: 100,
-        Cake: 50,
         '3 Boxes': 30,
         '2 Boxes': 20,
         '1 Box': 10,
@@ -73,12 +72,6 @@ export default {
           type: 'archie',
           label: 'Archie',
           url: '/assets/faces/03-archie.png',
-        },
-        {
-          winner: true,
-          type: 'cake',
-          label: 'Cake',
-          url: '/assets/faces/04-cake.png',
         },
         {
           winner: true,
